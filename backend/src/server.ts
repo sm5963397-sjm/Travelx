@@ -78,9 +78,12 @@ app.use("/api/recommendations", recommendationsRoutes);
 // Centralized error handler
 app.use(errorHandler);
 
+import { PlacesService } from "./services/placesService";
+
 // Start server
 async function startServer() {
   await connectDB();
+  await PlacesService.seedInitialPlaces();
 
   app.listen(PORT, () => {
     console.log("==========================================");

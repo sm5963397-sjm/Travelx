@@ -191,4 +191,18 @@ export class PlacesService {
     const matched = SEED_PLACES.find((p) => p.id === id);
     return matched || null;
   }
+
+  public static async seedInitialPlaces(): Promise<void> {
+    if (isDbConnected()) {
+      try {
+        const count = await PlaceModel.countDocuments();
+        if (count === 0) {
+          await PlaceModel.insertMany(SEED_PLACES);
+          console.log(`🌱 Seeded ${SEED_PLACES.length} places into MongoDB database.`);
+        }
+      } catch (err: any) {
+        console.warn("Place seed error:", err.message);
+      }
+    }
+  }
 }
